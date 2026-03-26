@@ -3,46 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tracker Aplikacji o Pracę</title>
+    <title>Job Application Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div>
-                <h1>📋 Tracker Aplikacji o Pracę</h1>
-                <p class="subtitle">Zarządzaj swoimi aplikacjami w jednym miejscu</p>
+                <h1 data-i18n="title">📋 Tracker Aplikacji o Pracę</h1>
+                <p class="subtitle" data-i18n="subtitle">Zarządzaj swoimi aplikacjami w jednym miejscu</p>
             </div>
-            <div class="buttons">
-                <button class="btn-add" onclick="addApplication()">
+            <div class="header-controls">
+                <button class="btn-add" onclick="addApplication()" data-i18n="btnAdd">
                     ➕ Dodaj aplikację
                 </button>
-                <button class="btn-export" onclick="exportToCSV()">
-                    💾 Eksportuj do CSV
+                <button class="btn-export" onclick="exportToCSV()" data-i18n="btnExport">
+                    💾 Eksportuj
                 </button>
                 <input type="file" id="importFile" accept=".csv" style="display: none;" onchange="importFromCSV(event)">
-                <button class="btn-import" onclick="document.getElementById('importFile').click()">
-                    📂 Importuj z CSV
+                <button class="btn-import" onclick="document.getElementById('importFile').click()" data-i18n="btnImport">
+                    📂 Importuj
                 </button>
+                <select id="langSwitch" class="lang-select" onchange="changeLanguage(this.value)">
+                    <option value="pl">PL</option>
+                    <option value="en">EN</option>
+                    <option value="de">DE</option>
+                </select>
             </div>
         </div>
 
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-number" style="color: #667eea;" id="stat-all">0</div>
-                <div class="stat-label">Wszystkie</div>
+                <div class="stat-label" data-i18n="statAll">Wszystkie</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" style="color: #ecc94b;" id="stat-progress">0</div>
-                <div class="stat-label">W trakcie</div>
+                <div class="stat-label" data-i18n="statInProgress">W trakcie</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" style="color: #48bb78;" id="stat-offers">0</div>
-                <div class="stat-label">Oferty</div>
+                <div class="stat-label" data-i18n="statOffers">Oferty</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" style="color: #f56565;" id="stat-rejected">0</div>
-                <div class="stat-label">Odrzucone</div>
+                <div class="stat-label" data-i18n="statRejected">Odrzucone</div>
             </div>
         </div>
 
@@ -50,26 +55,26 @@
             <table id="appTable">
                 <thead>
                     <tr>
-                        <th>Data</th>
-                        <th>Stanowisko</th>
-                        <th>Firma</th>
-                        <th>Typ</th>
-                        <th>Forma</th>
-                        <th>Poziom</th>
-                        <th>Status</th>
-                        <th>Lokalizacja</th>
-                        <th>Wynagrodzenie</th>
-                        <th>Źródło</th>
-                        <th>Notatki</th>
-                        <th>Akcje</th>
+                        <th data-i18n="colDate">Data</th>
+                        <th data-i18n="colPosition">Stanowisko</th>
+                        <th data-i18n="colCompany">Firma</th>
+                        <th data-i18n="colType">Typ</th>
+                        <th data-i18n="colMode">Forma</th>
+                        <th data-i18n="colLevel">Poziom</th>
+                        <th data-i18n="colStatus">Status</th>
+                        <th data-i18n="colLocation">Lokalizacja</th>
+                        <th data-i18n="colSalary">Wynagrodzenie</th>
+                        <th data-i18n="colSource">Źródło</th>
+                        <th data-i18n="colNotes">Notatki</th>
+                        <th data-i18n="colActions">Akcje</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
                 </tbody>
             </table>
             <div id="emptyState" class="empty-state" style="display: none;">
-                <h2>Brak aplikacji</h2>
-                <p>Kliknij "Dodaj aplikację" lub zaimportuj plik CSV, aby rozpocząć!</p>
+                <h2 data-i18n="emptyTitle">Brak aplikacji</h2>
+                <p data-i18n="emptyDesc">Kliknij "Dodaj aplikację" lub zaimportuj plik CSV, aby rozpocząć!</p>
             </div>
         </div>
     </div>
