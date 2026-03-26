@@ -16,11 +16,11 @@ const translations = {
         importSuccess: "Pomyślnie zaimportowano plik CSV!",
         importError: "Plik CSV jest pusty lub zawiera same nagłówki.",
         phPosition: "Nazwa stanowiska", phCompany: "Nazwa firmy", phCity: "Wpisz miasto...", phSalary: "np. 8000-10000", phSource: "np. LinkedIn", phNotes: "Dodaj notatki...",
-        
         "Nie sprecyzowano": "Nie sprecyzowano", "Full-time": "Full-time", "Part-time": "Part-time", "Kontrakt": "Kontrakt", "Praktyki": "Praktyki",
         "Stacjonarnie": "Stacjonarnie", "Hybryda": "Hybryda", "Zdalnie": "Zdalnie",
         "Staż": "Staż", "Junior": "Junior", "Mid": "Mid", "Senior": "Senior",
-        "Wysłana": "Wysłana", "W trakcie": "W trakcie", "Rozmowa": "Rozmowa", "Oferta": "Oferta", "Odrzucona": "Odrzucona", "Wycofana": "Wycofana"
+        "Wysłana": "Wysłana", "W trakcie": "W trakcie", "Rozmowa": "Rozmowa", "Oferta": "Oferta", "Odrzucona": "Odrzucona", "Wycofana": "Wycofana",
+        btnLink: "Otwórz link"
     },
     en: {
         title: "📋 Job Application Tracker", subtitle: "Manage your applications in one place",
@@ -35,11 +35,11 @@ const translations = {
         importSuccess: "CSV file imported successfully!",
         importError: "CSV file is empty or contains only headers.",
         phPosition: "Job Title", phCompany: "Company Name", phCity: "Enter city...", phSalary: "e.g. 8000-10000", phSource: "e.g. LinkedIn", phNotes: "Add notes...",
-        
         "Nie sprecyzowano": "Not specified", "Full-time": "Full-time", "Part-time": "Part-time", "Kontrakt": "Contract", "Praktyki": "Internship",
         "Stacjonarnie": "On-site", "Hybryda": "Hybrid", "Zdalnie": "Remote",
         "Staż": "Internship", "Junior": "Junior", "Mid": "Mid", "Senior": "Senior",
-        "Wysłana": "Sent", "W trakcie": "In Progress", "Rozmowa": "Interview", "Oferta": "Offer", "Odrzucona": "Rejected", "Wycofana": "Withdrawn"
+        "Wysłana": "Sent", "W trakcie": "In Progress", "Rozmowa": "Interview", "Oferta": "Offer", "Odrzucona": "Rejected", "Wycofana": "Withdrawn",
+        btnLink: "Open link"
     },
     de: {
         title: "📋 Bewerbungs-Tracker", subtitle: "Verwalten Sie Ihre Bewerbungen an einem Ort",
@@ -54,11 +54,11 @@ const translations = {
         importSuccess: "CSV-Datei erfolgreich importiert!",
         importError: "CSV-Datei ist leer oder enthält nur Kopfzeilen.",
         phPosition: "Jobtitel", phCompany: "Firmenname", phCity: "Stadt eingeben...", phSalary: "z.B. 8000-10000", phSource: "z.B. LinkedIn", phNotes: "Notizen hinzufügen...",
-        
         "Nie sprecyzowano": "Nicht angegeben", "Full-time": "Vollzeit", "Part-time": "Teilzeit", "Kontrakt": "Vertrag", "Praktyki": "Praktikum",
         "Stacjonarnie": "Vor Ort", "Hybryda": "Hybrid", "Zdalnie": "Remote",
         "Staż": "Praktikum", "Junior": "Junior", "Mid": "Mid", "Senior": "Senior",
-        "Wysłana": "Gesendet", "W trakcie": "Im Gange", "Rozmowa": "Interview", "Oferta": "Angebot", "Odrzucona": "Abgelehnt", "Wycofana": "Zurückgezogen"
+        "Wysłana": "Gesendet", "W trakcie": "Im Gange", "Rozmowa": "Interview", "Oferta": "Angebot", "Odrzucona": "Abgelehnt", "Wycofana": "Zurückgezogen",
+        btnLink: "Link öffnen"
     }
 };
 
@@ -67,7 +67,6 @@ const standardCities = ['Warszawa', 'Kraków', 'Wrocław', 'Poznań', 'Gdańsk',
 function t(key) {
     return translations[currentLang][key] || key;
 }
-
 
 function reverseT(displayedValue) {
     const entries = Object.entries(translations[currentLang]);
@@ -80,23 +79,19 @@ function reverseT(displayedValue) {
 function updateCitiesDatalist() {
     const datalist = document.getElementById('citiesList');
     if(datalist) {
-
         datalist.innerHTML = standardCities.map(city => `<option value="${city}">`).join('');
-        console.log("Lista miast została zaktualizowana!"); 
     }
 }
 
 function changeLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('appLang', lang);
-    
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang][key]) {
             el.innerHTML = translations[currentLang][key];
         }
     });
-
     document.getElementById('langSwitch').value = lang;
     updateCitiesDatalist();
     renderTable();
@@ -139,7 +134,6 @@ function startEdit(id) { editingId = id; renderTable(); }
 function saveEdit(id) {
     const row = document.querySelector(`tr[data-id="${id}"]`);
     const app = applications.find(a => a.id === id);
-    
     app.date = row.querySelector('.edit-date').value;
     app.position = row.querySelector('.edit-position').value;
     app.company = row.querySelector('.edit-company').value;
@@ -147,13 +141,10 @@ function saveEdit(id) {
     app.workMode = row.querySelector('.edit-workMode').value;
     app.level = row.querySelector('.edit-level').value;
     app.status = row.querySelector('.edit-status').value;
-    
     app.location = row.querySelector('.edit-location').value; 
-    
     app.salary = row.querySelector('.edit-salary').value;
     app.source = row.querySelector('.edit-source').value;
     app.notes = row.querySelector('.edit-notes').value;
-
     editingId = null;
     saveData();
     renderTable();
@@ -172,14 +163,12 @@ function cancelEdit() {
 function renderTable() {
     const tbody = document.getElementById('tableBody');
     const emptyState = document.getElementById('emptyState');
-    
     if (applications.length === 0) {
         tbody.innerHTML = '';
         emptyState.style.display = 'block';
         return;
     }
     emptyState.style.display = 'none';
-    
     const buildOptions = (arr, currentValue) => arr.map(val => `<option value="${val}" ${currentValue === val ? 'selected' : ''}>${t(val)}</option>`).join('');
 
     tbody.innerHTML = applications.map(app => {
@@ -193,9 +182,7 @@ function renderTable() {
                     <td><select class="edit-workMode">${buildOptions(['Nie sprecyzowano', 'Stacjonarnie', 'Hybryda', 'Zdalnie'], app.workMode)}</select></td>
                     <td><select class="edit-level">${buildOptions(['Staż', 'Junior', 'Mid', 'Senior'], app.level)}</select></td>
                     <td><select class="edit-status">${buildOptions(['Wysłana', 'W trakcie', 'Rozmowa', 'Oferta', 'Odrzucona', 'Wycofana'], app.status)}</select></td>
-                    <td>
-                        <input type="text" class="edit-location" list="citiesList" value="${app.location}" placeholder="${t('phCity')}">
-                    </td>
+                    <td><input type="text" class="edit-location" list="citiesList" value="${app.location}" placeholder="${t('phCity')}"></td>
                     <td><input type="text" class="edit-salary" value="${app.salary}" placeholder="${t('phSalary')}"></td>
                     <td><input type="text" class="edit-source" value="${app.source}" placeholder="${t('phSource')}"></td>
                     <td><textarea class="edit-notes" rows="2" placeholder="${t('phNotes')}">${app.notes}</textarea></td>
@@ -206,6 +193,11 @@ function renderTable() {
                 </tr>
             `;
         } else {
+            let sourceDisplay = app.source;
+            if (app.source && (app.source.startsWith('http://') || app.source.startsWith('https://'))) {
+                sourceDisplay = `<a href="${app.source}" target="_blank" rel="noopener noreferrer" class="source-link">🔗 ${t('btnLink')}</a>`;
+            }
+
             return `
                 <tr data-id="${app.id}">
                     <td>${app.date}</td>
@@ -217,7 +209,7 @@ function renderTable() {
                     <td><span class="badge status-${app.status.toLowerCase().replace(' ', '')}">${t(app.status)}</span></td>
                     <td>${app.location}</td>
                     <td>${app.salary}</td>
-                    <td>${app.source}</td>
+                    <td>${sourceDisplay}</td>
                     <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${app.notes}</td>
                     <td>
                         <button class="action-btn btn-edit" onclick="startEdit(${app.id})">✏️</button>
@@ -239,12 +231,10 @@ function updateStats() {
 function exportToCSV() {
     const headers = [t('colDate'), t('colPosition'), t('colCompany'), t('colType'), t('colMode'), 
                      t('colLevel'), t('colStatus'), t('colLocation'), t('colSalary'), t('colSource'), t('colNotes')];
-    
     const rows = applications.map(app => [
         app.date, app.position, app.company, t(app.type), t(app.workMode),
         t(app.level), t(app.status), app.location, app.salary, app.source, app.notes
     ]);
-
     const csvContent = [headers.join(','), ...rows.map(row => row.map(cell => `"${cell || ''}"`).join(','))].join('\n');
     const BOM = '\uFEFF'; 
     const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -257,20 +247,16 @@ function exportToCSV() {
 function importFromCSV(event) {
     const file = event.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = function(e) {
         const text = e.target.result;
         const lines = text.split('\n').filter(line => line.trim() !== '');
         if(lines.length < 2) return alert(t('importError'));
-
         const overwrite = confirm(t('confirmOverwrite'));
         let newApplications = overwrite ? [] : [...applications];
-
         for (let i = 1; i < lines.length; i++) {
             const row = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || lines[i].split(',');
             const cleanRow = row.map(cell => cell.replace(/^"|"$/g, '').trim());
-
             if(cleanRow.length >= 3) {
                 newApplications.push({
                     id: Date.now() + i,
@@ -282,7 +268,6 @@ function importFromCSV(event) {
                 });
             }
         }
-        
         applications = newApplications;
         saveData();
         renderTable();
