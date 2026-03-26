@@ -147,5 +147,5 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: #667eea
     .header { flex-direction: column; align-items: flex-start; }
     .header-controls { width: 100%; justify-content: space-between; }
     button { flex: 1; justify-content: center; }
-    .lang-select { width: auto; } /* Zmienione z 100% na auto */
+    .lang-select { width: auto; }
 }

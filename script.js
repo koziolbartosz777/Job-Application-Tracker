@@ -15,12 +15,12 @@ const translations = {
         confirmOverwrite: "Znalazłem aplikacje w pliku. Czy chcesz całkowicie nadpisać swoje obecne aplikacje? \n(Kliknij OK aby nadpisać, Anuluj aby dopisać do istniejących)",
         importSuccess: "Pomyślnie zaimportowano plik CSV!",
         importError: "Plik CSV jest pusty lub zawiera same nagłówki.",
-        phPosition: "Nazwa stanowiska", phCompany: "Nazwa firmy", phCity: "Wpisz miasto", phSalary: "np. 8000-10000", phSource: "np. LinkedIn", phNotes: "Dodaj notatki...",
+        phPosition: "Nazwa stanowiska", phCompany: "Nazwa firmy", phCity: "Wpisz miasto...", phSalary: "np. 8000-10000", phSource: "np. LinkedIn", phNotes: "Dodaj notatki...",
+        
         "Nie sprecyzowano": "Nie sprecyzowano", "Full-time": "Full-time", "Part-time": "Part-time", "Kontrakt": "Kontrakt", "Praktyki": "Praktyki",
         "Stacjonarnie": "Stacjonarnie", "Hybryda": "Hybryda", "Zdalnie": "Zdalnie",
         "Staż": "Staż", "Junior": "Junior", "Mid": "Mid", "Senior": "Senior",
-        "Wysłana": "Wysłana", "W trakcie": "W trakcie", "Rozmowa": "Rozmowa", "Oferta": "Oferta", "Odrzucona": "Odrzucona", "Wycofana": "Wycofana",
-        "Wybierz miasto": "Wybierz miasto", "Cała Polska": "Cała Polska", "Inne": "Inne"
+        "Wysłana": "Wysłana", "W trakcie": "W trakcie", "Rozmowa": "Rozmowa", "Oferta": "Oferta", "Odrzucona": "Odrzucona", "Wycofana": "Wycofana"
     },
     en: {
         title: "📋 Job Application Tracker", subtitle: "Manage your applications in one place",
@@ -34,12 +34,12 @@ const translations = {
         confirmOverwrite: "Applications found in file. Do you want to completely overwrite your current list? \n(Click OK to overwrite, Cancel to append)",
         importSuccess: "CSV file imported successfully!",
         importError: "CSV file is empty or contains only headers.",
-        phPosition: "Job Title", phCompany: "Company Name", phCity: "Enter city", phSalary: "e.g. 8000-10000", phSource: "e.g. LinkedIn", phNotes: "Add notes...",
+        phPosition: "Job Title", phCompany: "Company Name", phCity: "Enter city...", phSalary: "e.g. 8000-10000", phSource: "e.g. LinkedIn", phNotes: "Add notes...",
+        
         "Nie sprecyzowano": "Not specified", "Full-time": "Full-time", "Part-time": "Part-time", "Kontrakt": "Contract", "Praktyki": "Internship",
         "Stacjonarnie": "On-site", "Hybryda": "Hybrid", "Zdalnie": "Remote",
         "Staż": "Internship", "Junior": "Junior", "Mid": "Mid", "Senior": "Senior",
-        "Wysłana": "Sent", "W trakcie": "In Progress", "Rozmowa": "Interview", "Oferta": "Offer", "Odrzucona": "Rejected", "Wycofana": "Withdrawn",
-        "Wybierz miasto": "Select city", "Cała Polska": "Poland (All)", "Inne": "Other"
+        "Wysłana": "Sent", "W trakcie": "In Progress", "Rozmowa": "Interview", "Oferta": "Offer", "Odrzucona": "Rejected", "Wycofana": "Withdrawn"
     },
     de: {
         title: "📋 Bewerbungs-Tracker", subtitle: "Verwalten Sie Ihre Bewerbungen an einem Ort",
@@ -53,17 +53,37 @@ const translations = {
         confirmOverwrite: "Bewerbungen gefunden. Möchten Sie Ihre aktuelle Liste überschreiben? \n(OK für Überschreiben, Abbrechen zum Hinzufügen)",
         importSuccess: "CSV-Datei erfolgreich importiert!",
         importError: "CSV-Datei ist leer oder enthält nur Kopfzeilen.",
-        phPosition: "Jobtitel", phCompany: "Firmenname", phCity: "Stadt eingeben", phSalary: "z.B. 8000-10000", phSource: "z.B. LinkedIn", phNotes: "Notizen hinzufügen...",
+        phPosition: "Jobtitel", phCompany: "Firmenname", phCity: "Stadt eingeben...", phSalary: "z.B. 8000-10000", phSource: "z.B. LinkedIn", phNotes: "Notizen hinzufügen...",
+        
         "Nie sprecyzowano": "Nicht angegeben", "Full-time": "Vollzeit", "Part-time": "Teilzeit", "Kontrakt": "Vertrag", "Praktyki": "Praktikum",
         "Stacjonarnie": "Vor Ort", "Hybryda": "Hybrid", "Zdalnie": "Remote",
         "Staż": "Praktikum", "Junior": "Junior", "Mid": "Mid", "Senior": "Senior",
-        "Wysłana": "Gesendet", "W trakcie": "Im Gange", "Rozmowa": "Interview", "Oferta": "Angebot", "Odrzucona": "Abgelehnt", "Wycofana": "Zurückgezogen",
-        "Wybierz miasto": "Stadt wählen", "Cała Polska": "Ganz Polen", "Inne": "Andere"
+        "Wysłana": "Gesendet", "W trakcie": "Im Gange", "Rozmowa": "Interview", "Oferta": "Angebot", "Odrzucona": "Abgelehnt", "Wycofana": "Zurückgezogen"
     }
 };
 
+const standardCities = ['Warszawa', 'Kraków', 'Wrocław', 'Poznań', 'Gdańsk', 'Łódź', 'Katowice', 'Szczecin', 'Bydgoszcz', 'Lublin', 'Białystok', 'Zdalnie', 'Cała Polska'];
+
 function t(key) {
     return translations[currentLang][key] || key;
+}
+
+
+function reverseT(displayedValue) {
+    const entries = Object.entries(translations[currentLang]);
+    for (let [baseKey, localizedValue] of entries) {
+        if (localizedValue === displayedValue) return baseKey;
+    }
+    return displayedValue;
+}
+
+function updateCitiesDatalist() {
+    const datalist = document.getElementById('citiesList');
+    if(datalist) {
+
+        datalist.innerHTML = standardCities.map(city => `<option value="${city}">`).join('');
+        console.log("Lista miast została zaktualizowana!"); 
+    }
 }
 
 function changeLanguage(lang) {
@@ -78,34 +98,29 @@ function changeLanguage(lang) {
     });
 
     document.getElementById('langSwitch').value = lang;
-
+    updateCitiesDatalist();
     renderTable();
     updateStats();
 }
 
 function loadData() {
     const saved = localStorage.getItem('jobApplications');
-    if (saved) {
-        applications = JSON.parse(saved);
-    } 
-    changeLanguage(currentLang); 
+    if (saved) applications = JSON.parse(saved);
+    changeLanguage(currentLang);
 }
-
 
 function saveData() {
     localStorage.setItem('jobApplications', JSON.stringify(applications));
 }
 
 function addApplication() {
-    const newApp = {
+    applications.unshift({
         id: Date.now(),
         date: new Date().toISOString().split('T')[0],
-        position: '', company: '',
-        type: 'Full-time', workMode: 'Hybryda', level: 'Junior', status: 'Wysłana',
+        position: '', company: '', type: 'Full-time', workMode: 'Hybryda', level: 'Junior', status: 'Wysłana',
         location: '', salary: '', source: '', notes: ''
-    };
-    applications.unshift(newApp);
-    editingId = newApp.id;
+    });
+    editingId = applications[0].id;
     renderTable();
     updateStats();
 }
@@ -119,10 +134,7 @@ function deleteApplication(id) {
     }
 }
 
-function startEdit(id) {
-    editingId = id;
-    renderTable();
-}
+function startEdit(id) { editingId = id; renderTable(); }
 
 function saveEdit(id) {
     const row = document.querySelector(`tr[data-id="${id}"]`);
@@ -136,9 +148,7 @@ function saveEdit(id) {
     app.level = row.querySelector('.edit-level').value;
     app.status = row.querySelector('.edit-status').value;
     
-    const locationSelect = row.querySelector('.edit-location');
-    const locationOther = row.querySelector('.edit-location-other');
-    app.location = locationSelect.value === 'inne' && locationOther ? locationOther.value : locationSelect.value;
+    app.location = row.querySelector('.edit-location').value; 
     
     app.salary = row.querySelector('.edit-salary').value;
     app.source = row.querySelector('.edit-source').value;
@@ -168,15 +178,12 @@ function renderTable() {
         emptyState.style.display = 'block';
         return;
     }
-
     emptyState.style.display = 'none';
     
     const buildOptions = (arr, currentValue) => arr.map(val => `<option value="${val}" ${currentValue === val ? 'selected' : ''}>${t(val)}</option>`).join('');
 
     tbody.innerHTML = applications.map(app => {
-        const isEditing = editingId === app.id;
-        
-        if (isEditing) {
+        if (editingId === app.id) {
             return `
                 <tr data-id="${app.id}">
                     <td><input type="date" class="edit-date" value="${app.date}"></td>
@@ -187,13 +194,7 @@ function renderTable() {
                     <td><select class="edit-level">${buildOptions(['Staż', 'Junior', 'Mid', 'Senior'], app.level)}</select></td>
                     <td><select class="edit-status">${buildOptions(['Wysłana', 'W trakcie', 'Rozmowa', 'Oferta', 'Odrzucona', 'Wycofana'], app.status)}</select></td>
                     <td>
-                        <select class="edit-location">
-                            <option value="">${t('Wybierz miasto')}</option>
-                            ${buildOptions(['Warszawa', 'Kraków', 'Wrocław', 'Poznań', 'Gdańsk', 'Łódź', 'Katowice', 'Szczecin', 'Bydgoszcz', 'Lublin', 'Białystok', 'Zdalnie', 'Cała Polska'], app.location)}
-                            <option value="inne" ${!['Warszawa', 'Kraków', 'Wrocław', 'Poznań', 'Gdańsk', 'Łódź', 'Katowice', 'Szczecin', 'Bydgoszcz', 'Lublin', 'Białystok', 'Zdalnie', 'Cała Polska'].includes(app.location) && app.location ? 'selected' : ''}>${t('Inne')}</option>
-                        </select>
-                        ${!['Warszawa', 'Kraków', 'Wrocław', 'Poznań', 'Gdańsk', 'Łódź', 'Katowice', 'Szczecin', 'Bydgoszcz', 'Lublin', 'Białystok', 'Zdalnie', 'Cała Polska'].includes(app.location) && app.location ? 
-                            `<input type="text" class="edit-location-other" value="${app.location}" placeholder="${t('phCity')}" style="margin-top: 5px;">` : ''}
+                        <input type="text" class="edit-location" list="citiesList" value="${app.location}" placeholder="${t('phCity')}">
                     </td>
                     <td><input type="text" class="edit-salary" value="${app.salary}" placeholder="${t('phSalary')}"></td>
                     <td><input type="text" class="edit-source" value="${app.source}" placeholder="${t('phSource')}"></td>
@@ -214,7 +215,7 @@ function renderTable() {
                     <td><span class="badge mode-${app.workMode.toLowerCase()}">${t(app.workMode)}</span></td>
                     <td><span class="badge level-${app.level.toLowerCase()}">${t(app.level)}</span></td>
                     <td><span class="badge status-${app.status.toLowerCase().replace(' ', '')}">${t(app.status)}</span></td>
-                    <td>${t(app.location)}</td>
+                    <td>${app.location}</td>
                     <td>${app.salary}</td>
                     <td>${app.source}</td>
                     <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${app.notes}</td>
@@ -241,7 +242,7 @@ function exportToCSV() {
     
     const rows = applications.map(app => [
         app.date, app.position, app.company, t(app.type), t(app.workMode),
-        t(app.level), t(app.status), t(app.location), app.salary, app.source, app.notes
+        t(app.level), t(app.status), app.location, app.salary, app.source, app.notes
     ]);
 
     const csvContent = [headers.join(','), ...rows.map(row => row.map(cell => `"${cell || ''}"`).join(','))].join('\n');
@@ -261,11 +262,7 @@ function importFromCSV(event) {
     reader.onload = function(e) {
         const text = e.target.result;
         const lines = text.split('\n').filter(line => line.trim() !== '');
-        
-        if(lines.length < 2) {
-            alert(t('importError'));
-            return;
-        }
+        if(lines.length < 2) return alert(t('importError'));
 
         const overwrite = confirm(t('confirmOverwrite'));
         let newApplications = overwrite ? [] : [...applications];
@@ -275,14 +272,13 @@ function importFromCSV(event) {
             const cleanRow = row.map(cell => cell.replace(/^"|"$/g, '').trim());
 
             if(cleanRow.length >= 3) {
-                const reverseT = (val) => Object.keys(translations.pl).find(k => translations[currentLang][k] === val) || val;
-                
                 newApplications.push({
                     id: Date.now() + i,
                     date: cleanRow[0] || '', position: cleanRow[1] || '', company: cleanRow[2] || '',
                     type: reverseT(cleanRow[3]) || 'Full-time', workMode: reverseT(cleanRow[4]) || 'Hybryda',
                     level: reverseT(cleanRow[5]) || 'Junior', status: reverseT(cleanRow[6]) || 'Wysłana',
-                    location: reverseT(cleanRow[7]) || '', salary: cleanRow[8] || '', source: cleanRow[9] || '', notes: cleanRow[10] || ''
+                    location: cleanRow[7] || '', 
+                    salary: cleanRow[8] || '', source: cleanRow[9] || '', notes: cleanRow[10] || ''
                 });
             }
         }
