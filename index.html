@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker Aplikacji o Pracę</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>📋 Tracker Aplikacji o Pracę</h1>
+                <p class="subtitle">Zarządzaj swoimi aplikacjami w jednym miejscu</p>
+            </div>
+            <div class="buttons">
+                <button class="btn-add" onclick="addApplication()">
+                    ➕ Dodaj aplikację
+                </button>
+                <button class="btn-export" onclick="exportToCSV()">
+                    💾 Eksportuj do CSV
+                </button>
+                <input type="file" id="importFile" accept=".csv" style="display: none;" onchange="importFromCSV(event)">
+                <button class="btn-import" onclick="document.getElementById('importFile').click()">
+                    📂 Importuj z CSV
+                </button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" style="color: #667eea;" id="stat-all">0</div>
+                <div class="stat-label">Wszystkie</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #ecc94b;" id="stat-progress">0</div>
+                <div class="stat-label">W trakcie</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #48bb78;" id="stat-offers">0</div>
+                <div class="stat-label">Oferty</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #f56565;" id="stat-rejected">0</div>
+                <div class="stat-label">Odrzucone</div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="appTable">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Stanowisko</th>
+                        <th>Firma</th>
+                        <th>Typ</th>
+                        <th>Forma</th>
+                        <th>Poziom</th>
+                        <th>Status</th>
+                        <th>Lokalizacja</th>
+                        <th>Wynagrodzenie</th>
+                        <th>Źródło</th>
+                        <th>Notatki</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <h2>Brak aplikacji</h2>
+                <p>Kliknij "Dodaj aplikację" lub zaimportuj plik CSV, aby rozpocząć!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
